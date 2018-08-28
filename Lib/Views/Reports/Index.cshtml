@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Lib.Models.Report>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="row main-top-margin text-center">
+    <div class="col-md-8 col-md-offset-2 ">
+        <h1>Report by month in a year</h1>
+    </div>
+</div>
+<div class="row  main-low-margin text-center">
+    @using (Ajax.BeginForm("Index", "Reports", new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "Get" }))
+    {
+        <select id="smonth" name="smonth" >
+            @for (int i = 1; i <= 12; i++)
+                {
+                <option value="@i">@i</option>
+            }
+        </select>
+        <input id="month" type="text" value="@Request["smonth"]" style="display:none"/>
+        <input id="year" type="text" value="@Request["syear"]" style="display:none"/>
+            <select id="syear" name="syear">
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+            </select>
+            <input type="submit" value="Search" class="btn btn-primary" />
+    }
+    <br />
+    <div style="height:500px">
+        <div id="chartContainer" style="float:left;width:50%;"></div>
+    </div>
+    <div>
+        <br />
+        <br />
+        <table id="table_id">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CategoryId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CategoryName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NumberOfBorrowed)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CategoryId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CategoryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumberOfBorrowed)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var option =
+        {
+            theme: "theme2",
+            animationEnabled: true,
+            animationDuration: 2000,
+            height: 500,
+            width: 1170,
+            title: {
+                text: "The number of books borrowed in the category in "+$('#month').val()+"/"+$('#year').val(),
+                maxWidth: 600,
+                margin: 20,
+            },
+            axisX: { labelAngle: 0, },
+            axisY: {
+                title: "Issue Times (Times)",
+                interval: 1
+            },
+            data: [
+            {
+                type: "column",
+                indexLabel: "{y}",
+                indexLabelPlacement: "outside",
+                indexLabelOrientation: "horizontal",
+                indexLabelFontWeight: "bold",
+                dataPoints: [],
+            }
+            ]
+        };
+        @foreach(var item in Model){
+            @:option.data[0].dataPoints.push({label: "@item.CategoryName", y: @item.NumberOfBorrowed});
+        };
+
+        chart = new CanvasJS.Chart("chartContainer", option);
+        chart.render();
+    });
+</script>
+

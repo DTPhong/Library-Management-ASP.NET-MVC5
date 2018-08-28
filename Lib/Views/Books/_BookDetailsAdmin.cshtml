@@ -1,0 +1,91 @@
+﻿@model Lib.Models.Book
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4>Book details</h4>
+    <hr />
+
+    <div class="col-md-2">
+        <img src="@Model.Image" style="border:solid;border-width:1px;border-color:black" height="200px" width="200px" />
+    </div>
+    <div class="col-md-10">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ISBN)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ISBN)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Author)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Author)
+            </dd>
+            @*<dt>
+                    @Html.DisplayNameFor(model => model.Image)
+                </dt>
+
+                <dd>
+                    <img src="@Model.Image" style="border:solid;border-width:1px;border-color:black" />
+                </dd>*@
+        </dl>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+
+
+    @*<table>
+            <tr>
+                    @using (Html.BeginForm("Create", "StudentBooks", new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "Post" }))
+                    {
+                        <td></td>
+                        <td>
+                            <a class="btn btn-success" href="@Url.Action("Create","StudentBooks",
+           new {sid=Convert.ToInt32(Session["id"]),callNumber=Model.CallNumber})">Book for now</a></td>
+                    }
+            </tr>
+            <tr>
+                @using (Html.BeginForm("BookForFuture", "StudentBooks", new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "Post" }))
+                {
+                    @Html.HiddenFor(model => model.CallNumber);
+                    <td>
+                        <input type="date" name="datefield" class="form-group" /></td>
+                    <td>
+                        <button class="btn btn-info">Book later</button></td>
+                }
+            </tr>
+        </table>*@
+</div>
+
+@*<script>
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("datefield").setAttribute("min", today);
+    </script>*@
+
+

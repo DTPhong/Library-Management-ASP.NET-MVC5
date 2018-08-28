@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Lib.Models.Category>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row main-top-margin text-center">
+    <div class="col-md-8 col-md-offset-2 ">
+        <h1>Category management page</h1>
+    </div>
+</div>
+<br />
+<div class="row  main-low-margin text-center">
+    <div class="">
+        <p>
+            <a class="cCreate btn btn-default" id="cCreate">
+                <i class="glyphicon glyphicon-plus-sign"></i>
+                <span>Create New</span>
+            </a>
+        </p>
+        <table id="table_id" class="display">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CategoryName)
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="cEdit btn btn-success" id="cEdit" data-id="@item.CategoryId" >
+                        <i class="glyphicon glyphicon-pencil"></i>
+                        <span>Edit</span>
+                    </a>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="cDetail btn btn-info" id="cDetail" data-id="@item.CategoryId">
+                        <i class="glyphicon glyphicon-info-sign"></i>
+                        <span>Details</span>
+                    </a>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="cDelete btn btn-danger" id="cDelete" data-id="@item.CategoryId">
+                        <i class="glyphicon glyphicon-trash"></i>
+                        <span>Delete</span>
+                    </a>
+                </td>
+            </tr>
+            }
+            </tbody>
+
+        </table>
+        </div>
+    </div>
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'>
+            </div>
+        </div>
+    </div>
+
+</div>

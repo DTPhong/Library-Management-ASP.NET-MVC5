@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "IndexGuest";
+    Layout = "~/Views/Shared/_LayoutGuest.cshtml";
+}
+
+
+@*@model IEnumerable<Lib.Models.Book>*@
+@model PagedList.IPagedList<Lib.Models.Book>
+@using PagedList.Mvc;
+@*@{
+        ViewBag.Title = "Index";
+    }
+
+    <h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ISBN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ISBN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.CallNumber }) |
+                @Html.ActionLink("Details", "Details", new { id=item.CallNumber }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.CallNumber })
+            </td>
+        </tr>
+    }
+
+    </table>*@
+<div class="row main-top-margin text-center">
+    <div class="col-md-8 col-md-offset-2 ">
+        <h1>Library rules:</h1>
+        <ul>
+            <li><h4>Students can borrow as many books as they wish.</h4></li>
+            <li><h4>Students can book immediately or book later.</h4></li>
+            <li><h4>The maximum borrow days for a book is 15 days, and the late fee for one day is 10 cents.</h4></li>
+        </ul>
+    </div>
+</div>
+<!-- ./ Main Heading-->
+<div class="row  main-low-margin text-center">
+    <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 ">
+        <div class="text-center">
+            @using (Ajax.BeginForm("Index", "Books", new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "Get" }))
+            {
+                <table class="portfolio-filter">
+                    <tr>
+                        <td><h4>Category list:&nbsp;</h4></td>
+                        <td><a class="btn btn-primary active margin-5" href="@Url.Action("Index", new { id = "" })" data-filter="">All</a></td>
+                        @foreach (var item in ViewBag.CategoryId)
+                        {
+                            <td>
+                                <a class="btn btn-primary active margin-5" href="@Url.Action("Index", new { id = item.CategoryId })" data-filter="">@item.CategoryName</a>
+                            </td>
+
+                        }
+                        <td id="searchBar">
+                            <input type="text" class="form-control" id="txtTitle" name="txtTitle" />
+                        </td>
+                        <td>
+                            <button class="btn btn-danger"><i class="glyphicon glyphicon-search"></i>&nbsp;Search</button>
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+    </div>
+    <!-- ./ Filter Head div-->
+    <div class="col-md-10 col-md-offset-1 col-sm-12">
+        <ul class="portfolio-items col-3">
+            @foreach (var item in Model)
+            {
+                <li class="portfolio-item jquery">
+                    <a href="javascript:void(0);" class="anchorDetail" data-id="@item.CallNumber">
+                        <div class="item-main">
+                            <div class="portfolio-image">
+                                <img src="@item.Image" alt="" height="250px" width="250px">
+                                <div class="overlay">
+                                    <div class="preview btn btn-primary"><i class=" fa fa-eye"></i>Details</div>
+                                </div>
+                            </div>
+                            <h5>@item.Title</h5>
+                        </div>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'>
+            </div>
+        </div>
+    </div>
+
+</div>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+</div>
+@*@Html.PagedListPager((IPagedList)ViewBag.books, page => Url.Action("List", new { page }))*@
+
+@*<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>*@
+
+
+
+

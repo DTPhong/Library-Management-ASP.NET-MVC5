@@ -1,0 +1,192 @@
+﻿@model IEnumerable<Lib.Models.StudentBook>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+}
+
+<div class="row main-top-margin text-center">
+    <div class="col-md-8 col-md-offset-2 ">
+        <h1>Student book history page</h1>
+    </div>
+</div>
+
+@using (Ajax.BeginForm("Index", "StudentBooks", new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "Get" }))
+{
+    <table>
+        <tr>
+            <td class="col-md-2"><label>Start Date</label></td>
+            <td>
+                <input type="text" id="date1" name="startDate" class="form-control"
+                       placeholder="Input Date" value="@Request["startDate"]" />
+            </td>
+            <td class="col-md-2"><label>End Date</label></td>
+            <td>
+                <input type="text" id="date2" name="endDate" class="form-control"
+                       placeholder="Input Date" value="@Request["endDate"]" />
+            </td>
+            <td><input type="submit" value="Search" class="btn btn-primary" /></td>
+        </tr>
+    </table>
+
+}
+
+<br />
+<table id="table_id" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IssueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IssueStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckoutDate)
+            </th>
+            <th>
+                @Html.Label("Expired date")
+            </th>
+            <th>
+                @Html.Label("Late fees ")
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IssueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IssueStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckoutDate)
+                </td>
+                <td>
+                    @{
+                        if (item.IssueStatus!= "Cancel")
+                        {
+                            if (item.CheckoutDate != null)
+                            {
+                                DateTime checkOutDate = Convert.ToDateTime(item.CheckoutDate);
+                                DateTime dueDate = Convert.ToDateTime(item.DueDate);
+                                double expiredDate = (checkOutDate.Date - dueDate.Date).TotalDays;
+                                if (expiredDate > 0)
+                                {
+                                    @Html.Label(expiredDate.ToString() + " days");
+                                }
+                                else
+                                {
+                                    @Html.Label("None");
+                                }
+                            }
+                            else
+                            {
+                                DateTime now = DateTime.Now;
+                                DateTime dueDate = Convert.ToDateTime(item.DueDate);
+                                double expiredDate = (now.Date - dueDate.Date).TotalDays;
+                                if (expiredDate > 0)
+                                {
+                                    @Html.Label(expiredDate.ToString() + " days");
+                                }
+                                else
+                                {
+                                    @Html.Label("None");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            @Html.Label("None");
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (item.IssueStatus != "Cancel")
+                        {
+                            if (item.CheckoutDate != null)
+                            {
+                                DateTime checkOutDate = Convert.ToDateTime(item.CheckoutDate);
+                                DateTime dueDate = Convert.ToDateTime(item.DueDate);
+                                double expiredDate = (checkOutDate.Date - dueDate.Date).TotalDays;
+                                if (expiredDate > 0)
+                                {
+                                    @Html.Label((expiredDate * 10).ToString() + " cent");
+                                }
+                                else
+                                {
+                                    @Html.Label("None");
+                                }
+                            }
+                            else
+                            {
+                                DateTime now = DateTime.Now;
+                                DateTime dueDate = Convert.ToDateTime(item.DueDate);
+                                double expiredDate = (now.Date - dueDate.Date).TotalDays;
+                                if (expiredDate > 0)
+                                {
+                                    @Html.Label((expiredDate * 10).ToString() + " cent");
+                                }
+                                else
+                                {
+                                    @Html.Label("None");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            @Html.Label("None");
+                        }
+                    }
+                </td>
+            </tr>
+                        }
+    </tbody>
+</table>
+
+@*<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>*@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
+<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+
+<script>
+    $( function() {
+        $("#date1").datepicker({
+            format: "dd-mm-yyyy",
+            //startDate: "-0d",
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "auto left",
+            forceParse: false,
+            toggleActive: true
+        });
+
+        $("#date2").datepicker({
+            format: "dd-mm-yyyy",
+            //startDate: "-0d",
+            todayHighlight: true,
+            autoclose: true,
+            orientation: "auto left",
+            forceParse: false,
+            toggleActive: true
+        });
+    });
+</script>

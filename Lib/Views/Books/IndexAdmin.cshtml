@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Lib.Models.Book>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row main-top-margin text-center">
+    <div class="col-md-8 col-md-offset-2 ">
+        <h1>Book management page</h1>
+    </div>
+</div>
+<!-- ./ Main Heading-->
+<div class="row  main-low-margin text-center">
+    @*@RenderPage("~/Views/Categories/_BookCategory.cshtml")*@
+    <!-- ./ Filter Head div-->
+    <div class="">
+        @*col-md-10 col-md-offset-1 col-sm-12*@
+
+
+        <p>
+            <a class="btn btn-default" id="Create">
+                @*href="@Url.Action("Create", "Books")"*@
+                <i class="glyphicon glyphicon-plus-sign"></i>
+                <span>Create New</span>
+            </a>
+        </p>
+
+        <table id="table_id" class="display">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Category.CategoryName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ISBN)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Author)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Image)
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ISBN)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Author)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Image)
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" class="anchorEdit btn btn-success" data-id="@item.CallNumber">
+                                <i class="glyphicon glyphicon-pencil"></i>
+                                <span>Edit</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" class="anchorDetail btn btn-info" data-id="@item.CallNumber">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                                <span>Details</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" class="anchorDelete btn btn-danger" data-id="@item.CallNumber">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                <span>Delete</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'>
+            </div>
+        </div>
+    </div>
+
+</div>

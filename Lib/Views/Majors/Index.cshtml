@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Lib.Models.Major>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row main-top-margin text-center">
+    <div class="col-md-8 col-md-offset-2 ">
+        <h1>Major management page</h1>
+    </div>
+</div>
+<div class="row  main-low-margin text-center">
+    <div class="">
+        <p>
+            <a class="mCreate btn btn-default" id="mCreate">
+                @*href="@Url.Action("Create", "Books")"*@
+                <i class="glyphicon glyphicon-plus-sign"></i>
+                <span>Create New</span>
+            </a>
+        </p>
+        <table id="table_id" class="display">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MajorName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Phone)
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MajorName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Phone)
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" class="mEdit btn btn-success" id="mEdit" data-id="@item.MajorId">
+                                <i class="glyphicon glyphicon-pencil"></i>
+                                <span>Edit</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" class="mDetail btn btn-info" id="mDetail" data-id="@item.MajorId">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                                <span>Details</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" class="mDelete btn btn-danger" id="mDelete" data-id="@item.MajorId">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                <span>Delete</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'>
+            </div>
+        </div>
+    </div>
+
+</div>
